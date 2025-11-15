@@ -24,7 +24,6 @@ model User {
 model Folder {
   folderId    Int      @id @default(autoincrement())
   folderName  String   @db.VarChar(255)
-  size        Int
   owner       User     @relation(fields: [ownerId], references: [id])
   ownerId     Int
   createdDate DateTime @default(now())
@@ -34,6 +33,7 @@ model Folder {
 model File {
   fileId     Int      @id @default(autoincrement())
   fileName   String   @db.VarChar(255)
+  size       Int
   path       String
   url        String
   uploadDate DateTime @default(now())
