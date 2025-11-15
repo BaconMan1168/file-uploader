@@ -41,3 +41,10 @@ model File {
   parentFolder   Folder? @relation(fields: [parentFolderId], references: [folderId])
   parentFolderId Int?
 }
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
