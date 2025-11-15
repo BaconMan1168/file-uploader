@@ -14,3 +14,8 @@ const validateLogin = [
     body("username").trim()
         .isAlpha()
 ]
+
+module.exports = {
+    validateRegister,
+    validateLogin
+}
