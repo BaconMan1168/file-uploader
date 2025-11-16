@@ -10,6 +10,10 @@ async function getAllFolders(req, res){
         }
     });
 
+    if (!folders){
+        res.render('folderForm', { noFolders: true })
+    }
+
     const foldersWithLink = folders.map(folder => {
         return {
             folderId: folder.folderId,
@@ -45,3 +49,4 @@ async function getFolderFiles(req, res, next){
 
     res.render('folderView', { folder: folder, files: filesWithLink })
 }
+

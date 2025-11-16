@@ -7,13 +7,18 @@
     </head>
     <body>
         <h1>Existing Folders</h1>
-        <ul>
-            <% existingFolders.forEach(f => { %>
-                <li>
-                    <a href="<%= f.href %>"><%= f.folderName %></a>
-                </li>
-            <% }) %>
-        </ul>
+        <% if (noFolders) { %>
+            <h2>No Folders Yet. Create one</h2>
+        <% } else { %>
+            <ul>
+                <% existingFolders.forEach(f => { %>
+                    <li>
+                        <a href="<%= f.href %>"><%= f.folderName %></a>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } %>
+        
         
 
 
@@ -28,24 +33,34 @@
         </form>
 
         <h1>Update Folder</h1>
-        <form action="/folder/update" method="POST">
-            <label for="oldFolderName">
-                Folder to Update:
-                <input type="text" name="oldFolderName" id="oldFolderName">
-            </label>
+        <% if (noFolders) { %>
+            <h2>No Folders Yet, so you can't update one</h2>
+        <% } else { %>
+            <form action="/folder/update" method="POST">
+                <label for="oldFolderName">
+                    Folder to Update:
+                    <input type="text" name="oldFolderName" id="oldFolderName">
+                </label>
 
-            <label for="newFolderName">
-                New Folder Name:
-                <input type="text" name="newFolderName" id="newFolderName">
-            </label>
-        </form>
+                <label for="newFolderName">
+                    New Folder Name:
+                    <input type="text" name="newFolderName" id="newFolderName">
+                </label>
+            </form>
+        <% } %>
+
+        
 
         <h1>Delete Folder</h1>
-        <form action="/folder/delete" method="POST">
-            <label for="folderToDelete">
-                Folder to Delete:
-                <input type="text" name="folderToDelete" id="folderToDelete">
-            </label>
-        </form>
+        <% if (noFolders) { %>
+            <h2>No Folders Yet, so you can't delete one</h2>
+        <% } else { %>
+            <form action="/folder/delete" method="POST">
+                <label for="folderToDelete">
+                    Folder to Delete:
+                    <input type="text" name="folderToDelete" id="folderToDelete">
+                </label>
+            </form>
+        <% } %>
     </body>
 </html>

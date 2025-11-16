@@ -1,6 +1,27 @@
 const { PrismaClient } = require('@prisma/client');
+const { isAuth } = require('../authMiddleware').isAuth
 
 const prisma = new PrismaClient();
+
+const getFileForm = [
+    isAuth,
+    async (req, res, next) => {
+        const folders = await prisma.Folder.findMany({
+            select: {
+                folderId: true,
+                folderName: true
+            }
+        });
+
+        if (!folders){
+            res.redirect('/folder')
+        }
+        next();
+    },
+    (req, res) => {
+        res.render('fileUpload')
+    }
+]
 
 async function getFileInfo(req, res){
     const { fileId } = req.params;
