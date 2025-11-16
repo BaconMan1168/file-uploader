@@ -25,6 +25,43 @@ async function getAllFolders(req, res){
     res.render('folderForm', { existingFolders: foldersWithLink })
 }
 
+async function createFolder(req, res){
+    const { folderName } = req.body;
+    const { id } = req.user;
+
+    await prisma.Folder.create({
+        data: {
+            folderName: folderName,
+            ownderId: id
+
+        }
+    })
+}
+
+async function updateFolder(req, res){
+    const { oldFolderName, newFolderName } = req.body;
+    
+    await prisma.Folder.update({
+        where: {
+            folderName: oldFolderName
+        },
+        data: {
+            folderName: newFolderName
+        }
+    })
+}
+
+async function deleteFolder(req, res){
+    const { folderToDelete } = req.body;
+
+    await prisma.Folder.delete({
+        where: {
+            folderName: folderToDelete
+        }
+    })
+}
+
+
 async function getFolderFiles(req, res, next){
     const { folderId } = req.params;
     
@@ -48,5 +85,13 @@ async function getFolderFiles(req, res, next){
     }));
 
     res.render('folderView', { folder: folder, files: filesWithLink })
+}
+
+module.exports = {
+    getAllFolders,
+    getFolderFiles,
+    createFolder,
+    updateFolder,
+    deleteFolder
 }
 
