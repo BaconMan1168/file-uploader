@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Folder Form</title>
+    </head>
+    <body>
+        <h1>Existing Folders</h1>
+        <ul>
+            <% existingFolders.forEach(f => { %>
+                <li>
+                    <a href="<%= f.href %>"><%= f.name %></a>
+                </li>
+        </ul>
+        
+
+
+        <h1>Create Folder</h1>
+        <form action="/folder/create" method="POST">
+            <label for="folderName">
+                Folder Name:
+                <input type="text" name="folderName" id="folderName">
+            </label>
+
+            <button>Create Folder</button>
+        </form>
+
+        <h1>Update Folder</h1>
+        <form action="/folder/update" method="POST">
+            <label for="oldFolderName">
+                Folder to Update:
+                <input type="text" name="oldFolderName" id="oldFolderName">
+            </label>
+
+            <label for="newFolderName">
+                New Folder Name:
+                <input type="text" name="newFolderName" id="newFolderName">
+            </label>
+        </form>
+
+        <h1>Delete Folder</h1>
+        <form action="/folder/delete" method="POST">
+            <label for="folderToDelete">
+                Folder to Delete:
+                <input type="text" name="folderToDelete" id="folderToDelete">
+            </label>
+        </form>
+    </body>
+</html>
