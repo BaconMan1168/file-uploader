@@ -10,6 +10,10 @@ function getRegisterForm(req, res){
     res.render('registerForm')
 }
 
+function getLoginForm(req, res){
+    res.render('loginForm');
+}
+
 const registerUser = [
     validateRegister,
     async (req, res, next) => {
@@ -59,5 +63,6 @@ module.exports = {
     registerUser,
     loginUser,
     getLoginFail,
-    getLoginSuccess
+    getLoginSuccess,
+    getLoginForm
 }
