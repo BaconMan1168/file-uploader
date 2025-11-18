@@ -76,15 +76,20 @@ const uploadFile = [
                 }
             });
 
-            res.redirect(`/files/${result.fileId}`);
+            res.redirect(`/file/uploadSuccess`);
         } catch (err) {
             next(err);
         }
     }
 ]
 
+function getUploadSuccess(req, res){
+    res.render('uploadSuccess');
+}
+
 module.exports = {
     getFileForm,
     getFileInfo,
-    uploadFile
+    uploadFile,
+    getUploadSuccess
 }

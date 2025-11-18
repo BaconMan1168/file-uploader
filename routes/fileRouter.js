@@ -4,6 +4,7 @@ const fileController = require('../controllers/fileController')
 
 fileRouter.get('/upload', fileController.getFileForm); 
 fileRouter.get('/:folderId/:fileId', fileController.getFileInfo);
+fileRouter.get('/uploadSuccess', fileController.getUploadSuccess);
 fileRouter.post('/upload', fileController.uploadFile);
 
 module.exports = fileRouter;
