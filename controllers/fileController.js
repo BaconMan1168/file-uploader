@@ -1,5 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const { isAuth } = require('../authMiddleware').isAuth
+const multer = require('multer')
+const upload = ('../config/cloudinaryStorage')
 
 const prisma = new PrismaClient();
 
@@ -45,4 +47,44 @@ async function getFileInfo(req, res){
     }
 
     res.render('fileView', { file: file })
+}
+
+const uploadFile = [
+    upload.single("file"),
+    async (req, res, next) => {
+        try {
+            if (!req.file) {
+                return res.status(400).send("No file uploaded.");
+            }
+
+            const { originalname, size, path } = req.file;
+
+            let folder = await prisma.Folder.findFirst({
+                where: {
+                    folderName: folderName,
+                    ownerId: req.user.id
+                }
+            });
+
+            const result = await prisma.File.create({
+                data: {
+                    fileName: originalname,
+                    size: size,
+                    url: req.file.path, 
+                    path: req.file.path,
+                    parentFolderId: folder.folderId
+                }
+            });
+
+            res.redirect(`/files/${result.fileId}`);
+        } catch (err) {
+            next(err);
+        }
+    }
+]
+
+module.exports = {
+    getFileForm,
+    getFileInfo,
+    uploadFile
 }
