@@ -7,6 +7,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 const fileRouter = require('./routes/fileRouter')
 const folderRouter = require('./routes/folderRouter')
 const userRouter = require('./routes/userRouter')
+const indexRouter = require('./routes/indexRouter')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 
@@ -43,6 +44,7 @@ require('./config/passport');
 app.use('/file', fileRouter)
 app.use('/folder', folderRouter)
 app.use('/users', userRouter);
+app.use('/', indexRouter)
 
 
 const PORT = 3000;

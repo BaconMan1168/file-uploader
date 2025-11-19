@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 async function verifyUser(username, password, done){
     try {
-        const user = await prisma.User.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
                 username: username
             }

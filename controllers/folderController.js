@@ -3,7 +3,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient()
 
 async function getAllFolders(req, res){
-    const folders = await prisma.Folder.findMany({
+    const folders = await prisma.folder.findMany({
         select: {
             folderId: true,
             folderName: true
@@ -29,7 +29,7 @@ async function createFolder(req, res){
     const { folderName } = req.body;
     const { id } = req.user;
 
-    await prisma.Folder.create({
+    await prisma.folder.create({
         data: {
             folderName: folderName,
             ownderId: id
@@ -41,7 +41,7 @@ async function createFolder(req, res){
 async function updateFolder(req, res){
     const { oldFolderName, newFolderName } = req.body;
     
-    await prisma.Folder.update({
+    await prisma.folder.update({
         where: {
             folderName: oldFolderName
         },
@@ -54,7 +54,7 @@ async function updateFolder(req, res){
 async function deleteFolder(req, res){
     const { folderToDelete } = req.body;
 
-    await prisma.Folder.delete({
+    await prisma.folder.delete({
         where: {
             folderName: folderToDelete
         }
@@ -65,7 +65,7 @@ async function deleteFolder(req, res){
 async function getFolderFiles(req, res, next){
     const { folderId } = req.params;
     
-    const folder = await prisma.Folder.findUnique({
+    const folder = await prisma.folder.findUnique({
         where: {
             folderId: Number(folderId)
         },
