@@ -44,10 +44,20 @@ async function createFolder(req, res){
 
 async function updateFolder(req, res){
     const { oldFolderName, newFolderName } = req.body;
+
+    const { folderId } = await prisma.folder.findUnique({
+        where: {
+            folderName: oldFolderName
+        },
+        select: {
+            folderId: true
+        }
+    })
     
     await prisma.folder.update({
         where: {
-            folderName: oldFolderName
+            folderName: oldFolderName,
+            folderId: folderId
         },
         data: {
             folderName: newFolderName
