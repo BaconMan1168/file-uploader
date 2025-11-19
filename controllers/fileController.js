@@ -32,13 +32,15 @@ async function getFileInfo(req, res){
         where: {
             fileId: Number(fileId)
         },
-        include: { 
+        select: { 
             fileName: true,
             size: true,
             uploadDate: true,
             url: true
          }
     })
+
+    console.log(file);
 
     if (!file) {
         const error = new Error("File not Found");
