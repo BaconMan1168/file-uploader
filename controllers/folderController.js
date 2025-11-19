@@ -10,19 +10,23 @@ async function getAllFolders(req, res){
         }
     });
 
-    if (!folders){
+
+
+    if (!folders.length){
         res.render('folderForm', { noFolders: true })
     }
+    else {
+        const foldersWithLink = folders.map(folder => {
+            return {
+                folderId: folder.folderId,
+                folderName: folder.folderName,
+                href: `/folder/${folder.folderId}`
+            }
+        })
 
-    const foldersWithLink = folders.map(folder => {
-        return {
-            folderId: folder.folderId,
-            folderName: folder.folderName,
-            href: `/folder/${folder.folderId}`
-        }
-    })
+        res.render('folderForm', { existingFolders: foldersWithLink, noFolders: false })
+    }
 
-    res.render('folderForm', { existingFolders: foldersWithLink })
 }
 
 async function createFolder(req, res){
