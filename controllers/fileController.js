@@ -1,7 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
-const { isAuth } = require('../authMiddleware').isAuth
+const isAuth = require('../authMiddleware').isAuth;
 const multer = require('multer')
-const upload = ('../config/cloudinaryStorage')
+const upload = require('../config/cloudinaryStorage')
+
 
 const prisma = new PrismaClient();
 

@@ -1,13 +1,22 @@
 const express = require('express')
+const path = require('node:path')
 const expressSession = require('express-session')
 const { PrismaClient } = require('@prisma/client')
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+const fileRouter = require('./routes/fileRouter')
+const folderRouter = require('./routes/folderRouter')
+const userRouter = require('./routes/userRouter')
+const bodyParser = require('body-parser')
+const passport = require('passport')
+
+const app = express();
 
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
 app.use(
   expressSession({
@@ -27,3 +36,20 @@ app.use(
     )
   })
 );
+
+app.use(passport.session());
+require('./config/passport');
+
+app.use('/file', fileRouter)
+app.use('/folder', folderRouter)
+app.use('/users', userRouter);
+
+
+const PORT = 3000;
+app.listen(PORT, (error) => {
+  if (error) {
+    throw error;
+  }
+  console.log(`Members Only - listening on port ${PORT}!`);
+});
+
