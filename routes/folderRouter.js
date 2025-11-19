@@ -9,6 +9,9 @@ folderRouter.post('/create', folderController.createFolder);
 folderRouter.post('/update', folderController.updateFolder);
 folderRouter.post('/delete', folderController.deleteFolder);
 folderRouter.get('/:folderId', folderController.getFolderFiles);
+folderRouter.get('/:folderId/:fileId/download', fileController.downloadFile);
 folderRouter.get('/:folderId/:fileId', fileController.getFileInfo);
+
+
 
 module.exports = folderRouter;

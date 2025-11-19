@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const isAuth = require('../authMiddleware').isAuth;
 const upload = require('../config/cloudinaryStorage')
-
+const cloudinary = require('../config/cloudinary')
 
 const prisma = new PrismaClient();
 
@@ -32,12 +32,7 @@ async function getFileInfo(req, res){
         where: {
             fileId: Number(fileId)
         },
-        select: { 
-            fileName: true,
-            size: true,
-            uploadDate: true,
-            url: true
-         }
+        include: { parentFolder: true } 
     })
 
     console.log(file);
@@ -48,7 +43,9 @@ async function getFileInfo(req, res){
         return next(err);
     }
 
-    res.render('fileView', { file: file })
+
+
+    res.render('fileView', { file: file, folder: file.parentFolder })
 }
 
 const uploadFile = [
@@ -93,9 +90,52 @@ function getUploadSuccess(req, res){
     res.render('uploadSuccess');
 }
 
+
+async function downloadFile(req, res, next) {
+    try {
+        const { fileId } = req.params;
+
+        const file = await prisma.file.findUnique({
+            where: { fileId: Number(fileId) }
+        });
+
+        if (!file) return res.status(404).send("File not found");
+
+        // Split URL
+        const urlParts = file.url.split('/upload/');
+        if (urlParts.length < 2) {
+            return res.status(400).send("Invalid Cloudinary URL");
+        }
+
+        let publicId = urlParts[1];
+
+        // Remove version prefix "v12345/"
+        publicId = publicId.replace(/^v\d+\//, "");
+
+        // Remove extension
+        publicId = publicId.replace(/\.[^/.]+$/, "");
+
+        // Generate Cloudinary signed URL for download:
+        const downloadUrl = cloudinary.url(publicId, {
+            resource_type: "image",        // required for non-images
+            flags: "attachment",
+            attachment: file.fileName,   // filename to save as
+        });
+
+        // FINALLY SEND SOMETHING
+        return res.redirect(downloadUrl);
+
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+
 module.exports = {
     getFileForm,
     getFileInfo,
     uploadFile,
-    getUploadSuccess
+    getUploadSuccess,
+    downloadFile
 }

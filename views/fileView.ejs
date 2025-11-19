@@ -16,6 +16,8 @@
         <h3>Upload Date</h3>
         <p><%= file.uploadDate %></p>
 
-        <a href="<%= file.url %>" download>Download File</a>
+        <a href="/folder/<%= folder.folderId %>/<%= file.fileId %>/download">
+            Download File
+        </a>
     </body>
 </html>
