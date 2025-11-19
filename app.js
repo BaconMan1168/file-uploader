@@ -52,6 +52,6 @@ app.listen(PORT, (error) => {
   if (error) {
     throw error;
   }
-  console.log(`Members Only - listening on port ${PORT}!`);
+  console.log(`File Uploader - listening on port ${PORT}!`);
 });
 

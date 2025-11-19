@@ -25,11 +25,19 @@ const registerUser = [
         const user = matchedData(req);
         
         try {
+            
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword;
-            await prisma.user.create({
-                data: user
+
+            const { username } = user;
+            const userWithoutConfirm = {
+                username: username,
+                password: hashedPassword
+            }
+            const createdUser = await prisma.user.create({
+                data: userWithoutConfirm
             });
+            console.log(`registered new user: ${createdUser}`)
         }
         catch (err){
             next(err);

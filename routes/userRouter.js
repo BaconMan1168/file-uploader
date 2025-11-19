@@ -6,7 +6,7 @@ userRouter.get('/register', userController.getRegisterForm);
 userRouter.post('/register', userController.registerUser);
 userRouter.get('/login', userController.getLoginForm);
 userRouter.post('/login', userController.loginUser);
-userRouter.get('/loginSuccess', userController.getLoginSuccess);
-userRouter.get('/loginFail', userController.getLoginFail);
+userRouter.get('/login-success', userController.getLoginSuccess);
+userRouter.get('/login-failure', userController.getLoginFail);
 
 module.exports = userRouter;
