@@ -57,7 +57,9 @@ const uploadFile = [
                 return res.status(400).send("No file uploaded.");
             }
 
-            const { originalname, size, path } = req.file;
+            const { folderName } = req.body
+            const { originalname, size } = req.file;
+            console.log(req.file)
 
             let folder = await prisma.folder.findFirst({
                 where: {
@@ -75,6 +77,8 @@ const uploadFile = [
                     parentFolderId: folder.folderId
                 }
             });
+
+            
 
             res.redirect(`/file/uploadSuccess`);
         } catch (err) {
